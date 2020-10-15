@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Monitoring System</title>
-    <script src="../Ems/common.js"></script>
-    <script src="../Ems/empData.js"></script>
+    <script src="../EMS/common.js"></script>
+    <script src="../EMS/empData.js"></script>
     <script>
 
         let mgr = new empManager();
@@ -14,9 +14,9 @@
             $hide("div2");
             $hide("div3");
             //add some dummy records to the store...
-            mgr.addEmployee(new employee(123, "lavanyaa", "Bangalore"));
+            mgr.addEmployee(new employee(123, "lavanya", "Bangalore"));
             mgr.addEmployee(new employee(124, "surya", "Mysore"));
-            mgr.addEmployee(new employee(125, "diya", "coimbatore"));
+            mgr.addEmployee(new employee(125, "diya", "Pune"));
             mgr.addEmployee(new employee(126, "dev", "Chennai"));
         }
 
@@ -50,7 +50,7 @@
             $show("div1");
             let data = mgr.getAll();
             data.forEach(emp => {
-                let row = `<tr><td>${emp.empId}</td><td>${emp.empName}</td><td>${emp.empAddress}</td><td><a href="#" class="edit" sid="${emp.empId}">Edit</a><td><button onclick="delEmp()" class="X" did="${emp.empId}">x</button></td></td>`;
+                let row = `<tr><td>${emp.empId}</td><td>${emp.empName}</td><td>${emp.empAddress}</td><td><a href="#" class="edit" sId="${emp.empId}">Edit</a><td><a href="#" class="X" did="${emp.empId}">x</a></td></td>`;
                 $('tblRecords').innerHTML += row;
                 $mapEvent("edit", function(){
                     debugger;
@@ -63,24 +63,25 @@
                     $hide("div3");
                     $show("div2");
                 })
-            });
-        }
-        function delEmp(){
-            var res = confirm("Do you confirm");
-            if(res){
-                $mapEvent("X", function(){
-                    debugger;
-                    let selectedId = this.attributes["did"].value;
-                    mgr.deleteEmployee(selectedId);
-                    //let dataDel = mgr.getAll();
+                $mapEvent("X", function()
+                {
+                    var res = confirm("Do you confirm");
+                    if(res)
+                    {
+                        debugger;
+                        let selectedId = this.attributes["did"].value;
+                        mgr.deleteEmployee(selectedId);
+                    }
+                    else{
+                        alert("can't deleted");
+                    }
+                    
 
                 })  
-            }
-            else{
-                alert("not deleted");
-            }
-
+                
+            });
         }
+
         function updateRecord(){
             let id = $("empId").innerText;
             let name = $("empName").value;
@@ -94,6 +95,7 @@
                 alert(error.message);
             }            
         }
+      
     </script>
 </head>
 <body onload="init()">
